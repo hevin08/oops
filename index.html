@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Person Details</title>
+  <style>
+    table {
+      width: 50%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    table, th, td {
+      border: 1px solid black;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <h1>Person Details</h1>
+  <table id="personTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Country</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+
+  <script>
+    class Person {
+      constructor(name, age, country) {
+        this.name = name;
+        this.age = age;
+        this.country = country;
+      }
+
+      displayDetails() {
+        return {
+          Name: this.name,
+          Age: this.age,
+          Country: this.country
+        };
+      }
+    }
+
+    const person1 = new Person('xyz', 25, 'USA');
+    const person2 = new Person('pqr', 20, 'IND');
+
+    function displayInTable(persons) {
+      const tableBody = document.querySelector('#personTable tbody');
+      persons.forEach(person => {
+        const details = person.displayDetails();
+        const row = document.createElement('tr');
+        Object.values(details).forEach(value => {
+          const cell = document.createElement('td');
+          cell.textContent = value;
+          row.appendChild(cell);
+        });
+        tableBody.appendChild(row);
+      });
+    }
+
+    displayInTable([person1, person2]);
+  </script>
+</body>
+</html>
