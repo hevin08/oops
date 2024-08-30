@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bank Account Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .account-details {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Bank Account Details</h1>
+  <div id="accountDetails" class="account-details"></div>
+
+  <script>
+    class BankAccount {
+      constructor(accountNumber, balance) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+      }
+
+      deposit(amount) {
+        this.balance += amount;
+        return amount;
+      }
+
+      withdraw(amount) {
+        if (amount > this.balance) {
+          return 'Insufficient balance';
+        } else {
+          this.balance -= amount;
+          return amount;
+        }
+      }
+
+      getBalance() {
+        return this.balance;
+      }
+
+      getAccountNumber() {
+        return this.accountNumber;
+      }
+    }
+
+    // Create an instance of the BankAccount class
+    const account = new BankAccount('212121212', 1500);
+
+    // Function to display account details
+    function displayAccountDetails(account, operations) {
+      const accountDetailsDiv = document.getElementById('accountDetails');
+      let detailsHTML = `
+        <p>A/c No.: ${account.getAccountNumber()}</p>
+        <p>Opening Balance: ${account.getBalance()}</p>
+      `;
+
+      operations.forEach(operation => {
+        if (operation.type === 'deposit') {
+          const deposited = account.deposit(operation.amount);
+          detailsHTML += `<p>Deposited: ${deposited}</p>`;
+        } else if (operation.type === 'withdraw') {
+          const withdrawn = account.withdraw(operation.amount);
+          if (withdrawn === 'Insufficient balance') {
+            detailsHTML += `<p>Want to withdraw: ${operation.amount}</p>`;
+            detailsHTML += `<p>${withdrawn}</p>`;
+          } else {
+            detailsHTML += `<p>Withdrawn: ${withdrawn}</p>`;
+          }
+        }
+        detailsHTML += `<p>Account Balance: ${account.getBalance()}</p>`;
+      });
+
+      accountDetailsDiv.innerHTML = detailsHTML;
+    }
+
+    // Define operations
+    const operations = [
+      { type: 'deposit', amount: 500 },
+      { type: 'withdraw', amount: 400 },
+      { type: 'withdraw', amount: 1800 }
+    ];
+
+    // Display account details and operations
+    displayAccountDetails(account, operations);
+  </script>
+</body>
+</html>
